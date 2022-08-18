@@ -1,9 +1,10 @@
-import React from "react";
+import React,{useState} from "react";
 import Button, { SelectButton } from "./Button";
 import styles from "../Styles/modules/app.module.scss";
 import TodoModal from "./TodoModal";
 
 function AppHeader() {
+  const [modalOpen,setModalOpen]=useState(false)
   return (
     <div className={styles.appHeader}>
       <Button variant="primary">Add Tasks</Button>
@@ -12,7 +13,7 @@ function AppHeader() {
         <option value="Incomplete">Incomplete</option>
         <option value="Complete">Complete</option>
       </SelectButton>
-      <TodoModal />
+      <TodoModal  modalOpen={modalOpen} setModalOpen={setModalOpen}/>
     </div>
   );
 }
