@@ -13,14 +13,14 @@ function TodoModal({ modalOpen, setModalOpen }) {
   return (
     modalOpen && (
       <div className={styles.wrapper}>
-        <div
-          className={styles.container}
-          onClick={() => setModalOpen(false)}
-          onKeyDown={() => setModalOpen(false)}
-          tabIndex={0}
-          role="button"
-        >
-          <div className={styles.closeButton}>
+        <div className={styles.container}>
+          <div
+            className={styles.closeButton}
+            onClick={() => setModalOpen(false)}
+            onKeyDown={() => setModalOpen(false)}
+            tabIndex={0}
+            role="button"
+          >
             <MdOutlineClose />
           </div>
           <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
