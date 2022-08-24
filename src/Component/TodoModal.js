@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import toast from 'react-hot-toast'
 import { MdOutlineClose } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { addTodo } from "../slices/todoSlice";
@@ -19,6 +20,10 @@ function TodoModal({ modalOpen, setModalOpen }) {
         id:uuid(),
         title,status,time:new Date().toLocaleDateString()
       }));
+      toast.success('Task Added Successfully');
+      setModalOpen(false)
+    }else{
+      toast.error(`Title Shouldn't be empty`)
     }
   };
   return (
