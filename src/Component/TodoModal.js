@@ -1,29 +1,41 @@
 import React, { useState } from "react";
 
-import toast from 'react-hot-toast'
+import toast from "react-hot-toast";
 import { MdOutlineClose } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { addTodo } from "../slices/todoSlice";
 import styles from "../Styles/modules/modal.module.scss";
 import Button from "./Button";
-import {v4 as uuid}from 'uuid'
+import { v4 as uuid } from "uuid";
 
-function TodoModal({ modalOpen, setModalOpen }) {
+function TodoModal({ type, modalOpen, setModalOpen }) {
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("Incomplete");
   const dispatch = useDispatch(addTodo);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (title === "") {
+      toast.error("Please Enter A Title.");
+      return;
+    }
     if (title && status) {
-      dispatch(addTodo({
-        id:uuid(),
-        title,status,time:new Date().toLocaleDateString()
-      }));
-      toast.success('Task Added Successfully');
-      setModalOpen(false)
-    }else{
-      toast.error(`Title Shouldn't be empty`)
+      if (type === "add")
+        dispatch(
+          addTodo({
+            id: uuid(),
+            title,
+            status,
+            time: new Date().toLocaleDateString(),
+          })
+        );
+      toast.success("Task Added Successfully");
+      setModalOpen(false);
+    }
+    if (type === "update") {
+      console.log("updating");
+    } else {
+      toast.error(`Title Shouldn't be empty`);
     }
   };
   return (
@@ -40,7 +52,9 @@ function TodoModal({ modalOpen, setModalOpen }) {
             <MdOutlineClose />
           </div>
           <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
-            <h1 className={styles.formTitle}>Add Task</h1>
+            <h1 className={styles.formTitle}>
+              {type === "update" ? "Update" : "Add"} Task
+            </h1>
             <label
               htmlFor="title"
               id="title"
@@ -64,7 +78,7 @@ function TodoModal({ modalOpen, setModalOpen }) {
             </label>
             <div className={styles.buttonContainer}>
               <Button type="submit" variant="primary">
-                Add Task
+                {type === "update" ? "Update" : "Add"} Task
               </Button>
               <Button
                 type="button"
