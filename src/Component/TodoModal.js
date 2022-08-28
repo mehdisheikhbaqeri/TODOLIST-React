@@ -40,21 +40,8 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
           })
         );
       toast.success("Task Added Successfully");
-      setModalOpen(false);
-    }
-    if (title && status) {
-      if (type === 'add') {
-        dispatch(
-          addTodo({
-            id: uuid(),
-            title,
-            status,
-            time: new Date().toLocaleString(),
-          })
-        );
-        
-        toast.success('Task added successfully');
-      }
+      setModalOpen(false);   
+      
       if (type === 'update') {
         if (todo.title !== title || todo.status !== status) {
           dispatch(updateTodo({ ...todo, title, status }));
