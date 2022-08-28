@@ -40,14 +40,12 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
           })
         );
       toast.success("Task Added Successfully");
-      setModalOpen(false);   
-      
-      if (type === 'update') {
+
         if (todo.title !== title || todo.status !== status) {
           dispatch(updateTodo({ ...todo, title, status }));
-          toast.success('Task Updated successfully');
+          toast.success("Task Updated successfully");
         } else {
-          toast.error('No changes made');
+          toast.error("No changes made");
           return;
         }
       }
