@@ -29,7 +29,7 @@ export const todoSlice = createSlice({
       } else {
         window.localStorage.setItem(
           "todoList",
-          JSON.stringify([...action.payload])
+          JSON.stringify([{ ...action.payload }])
         );
       }
     },
