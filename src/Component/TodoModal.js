@@ -50,7 +50,7 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
         }
       }
       setModalOpen(false);
-    }
+   
   };
   return (
     modalOpen && (
