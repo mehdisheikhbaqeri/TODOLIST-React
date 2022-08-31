@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import toast from "react-hot-toast";
 import { MdOutlineClose } from "react-icons/md";
 import { useDispatch } from "react-redux";
@@ -11,7 +10,7 @@ import { v4 as uuid } from "uuid";
 function TodoModal({ type, modalOpen, setModalOpen, todo }) {
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("Incomplete");
-  const dispatch = useDispatch(addTodo);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (type === "update" && todo) {
@@ -19,7 +18,7 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
       setStatus(todo.status);
     } else {
       setTitle("");
-      setStatus("Incomplete");
+      setStatus("incomplete");
     }
   }, [type, todo, modalOpen]);
 
@@ -30,84 +29,84 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
       return;
     }
     if (title && status) {
-      if (type === "add")
+      if (type === "add") {
         dispatch(
           addTodo({
             id: uuid(),
             title,
             status,
-            time: new Date().toLocaleDateString(),
+            time: new Date().toLocaleString(),
           })
         );
-      toast.success("Task Added Successfully");
 
         if (todo.title !== title || todo.status !== status) {
           dispatch(updateTodo({ ...todo, title, status }));
           toast.success("Task Updated successfully");
         } else {
           toast.error("No changes made");
-          return;
+
         }
       }
       setModalOpen(false);
-   
+
   };
   return (
-    modalOpen && (
-      <div className={styles.wrapper}>
-        <div className={styles.container}>
-          <div
-            className={styles.closeButton}
-            onClick={() => setModalOpen(false)}
-            onKeyDown={() => setModalOpen(false)}
-            tabIndex={0}
-            role="button"
-          >
-            <MdOutlineClose />
-          </div>
-          <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
-            <h1 className={styles.formTitle}>
-              {type === "update" ? "Update" : "Add"} Task
-            </h1>
-            <label
-              htmlFor="title"
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+    <>
+      {modalOpen && (
+        <div className={styles.wrapper}>
+          <div className={styles.container}>
+            <div
+              className={styles.closeButton}
+              onClick={() => setModalOpen(false)}
+              onKeyDown={() => setModalOpen(false)}
+              tabIndex={0}
+              role="button"
             >
-              Title
-              <input type="text" id="title" />
-            </label>
-            <label
-              htmlFor="status"
-              id="status"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-            >
-              Status
-              <select name="status" id="status">
-                <option value="incomplete">Incomplete</option>
-                <option value="complete">Complete</option>
-              </select>
-            </label>
-            <div className={styles.buttonContainer}>
-              <Button type="submit" variant="primary">
-                {type === "update" ? "Update" : "Add"} Task
-              </Button>
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={() => setModalOpen(false)}
-                onKeyDown={() => setModalOpen(false)}
-              >
-                Cancel
-              </Button>
+              <MdOutlineClose />
             </div>
-          </form>
+            <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
+              <h1 className={styles.formTitle}>
+                {type === "update" ? "Update" : "Add"} Task
+              </h1>
+              <label htmlFor="title" id="title">
+                Title
+                <input
+                  type="text"
+                  id="title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </label>
+              <label htmlFor="status" id="status">
+                Status
+                <select
+                  name="status"
+                  id="status"
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                >
+                  <option value="incomplete">Incomplete</option>
+                  <option value="complete">Complete</option>
+                </select>
+              </label>
+              <div className={styles.buttonContainer}>
+                <Button type="submit" variant="primary">
+                  {type === "update" ? "Update" : "Add"} Task
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={() => setModalOpen(false)}
+                  onKeyDown={() => setModalOpen(false)}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-    )
-    // </div>
+      )}
+    </>
   );
 }
 
