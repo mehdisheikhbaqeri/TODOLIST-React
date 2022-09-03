@@ -11,7 +11,7 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("Incomplete");
   const dispatch = useDispatch();
-
+  
   useEffect(() => {
     if (type === "update" && todo) {
       setTitle(todo.title);
@@ -21,15 +21,15 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
       setStatus("incomplete");
     }
   }, [type, todo, modalOpen]);
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (title === "") {
-      toast.error("Please Enter A Title.");
+    if (title === '') {
+      toast.error('Please enter a title');
       return;
     }
     if (title && status) {
-      if (type === "add") {
+      if (type === 'add') {
         dispatch(
           addTodo({
             id: uuid(),
@@ -38,17 +38,19 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
             time: new Date().toLocaleString(),
           })
         );
-
+        toast.success('Task added successfully');
+      }
+      if (type === 'update') {
         if (todo.title !== title || todo.status !== status) {
           dispatch(updateTodo({ ...todo, title, status }));
-          toast.success("Task Updated successfully");
+          toast.success('Task Updated successfully');
         } else {
-          toast.error("No changes made");
-
+          toast.error('No changes made');
+          return;
         }
       }
       setModalOpen(false);
-
+    }
   };
   return (
     <>
@@ -61,7 +63,7 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
               onKeyDown={() => setModalOpen(false)}
               tabIndex={0}
               role="button"
-            >
+              >
               <MdOutlineClose />
             </div>
             <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
@@ -75,7 +77,7 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
                   id="title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                />
+                  />
               </label>
               <label htmlFor="status" id="status">
                 Status
@@ -98,7 +100,7 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
                   variant="secondary"
                   onClick={() => setModalOpen(false)}
                   onKeyDown={() => setModalOpen(false)}
-                >
+                  >
                   Cancel
                 </Button>
               </div>
@@ -109,5 +111,4 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
     </>
   );
 }
-
 export default TodoModal;
